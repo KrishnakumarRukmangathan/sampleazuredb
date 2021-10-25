@@ -6,23 +6,21 @@ push:
 pull_request:
     branches: [ master ]
 
-
 jobs:
 build:
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v1
     - uses: azure/login@v1
-    with:
+      with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
-
-- uses: azure/sql-action@v1
-  with:
-    server-name: SQL_SERVER_NAME
-    connection-string: ${{ secrets.AZURE_SQL_CONNECTION_STRING }}
-    dacpac-package: './Database.dacpac'
+    - uses: azure/sql-action@v1
+      with:
+        server-name: mysqlserver619.database.windows.net
+        connection-string: ${{ secrets.AZURE_SQL_CONNECTION_STRING }}
+        dacpac-package: './AzureSQLDB.dacpac'
 
     # Azure logout 
-- name: logout
+- name: logout  
   run: |
      az logout
